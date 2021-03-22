@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AGDFiteness4.Models.Product>
+
+@{
+    ViewBag.Title = "Admin View";
+}
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<style>
+    body {
+        font-family: Roboto;
+    }
+
+    #AdminHeader {
+        margin-top: 10px;
+        height: 50px;
+        display: block;
+        background-color: white;
+        position: relative;
+        border: 1px solid black;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+    table {
+        margin-top: 0px;
+    }
+
+    .thead {
+        background-color: black;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<div id="AdminHeader" style="   ">
+    <p style="margin-top:0px;position:absolute;top:9px;left:5px;color:black;" class="btn btn-default">@Html.ActionLink("Add a Product", "Create", "Products")</p>
+    <h2 class="text-center" style="margin-top:0px;padding-top:8px;">Manage Prodcuts </h2>
+</div>
+
+<div>
+    <Table id="myTable" class="table table-striped" border="1" width="100%">
+        <thead class="thead">
+            <tr>
+                <td>Category</td>
+                <td>Name</td>
+                <td>Product Image</td>
+                <td>Price</td>
+                <td>In Stock</td>
+                <td>Admin Features</td>
+            </tr>
+        <thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td class="text-center">
+                        <img src="~/Content/Images/@(String.Format("{0}{1}", @Html.DisplayFor(modelItem => item.CategoryTBL.CategoryName), "_.jpg"))" width="50" style=" display: block; margin-left: auto; margin-right: auto;" />
+                        <p> @Html.DisplayFor(modelItem => item.CategoryTBL.CategoryName)</p>
+                    </td>
+
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+
+                    <td class="text-center">
+                        <img src="~/Content/Images/ProductImages/@Html.DisplayFor(modelItem => item.Image)" width="100" style=" display: block; margin-left: auto; margin-right: auto;" />
+                    </td>
+
+
+
+                    <td class="text-center">
+                        <span>@String.Format("{0:C}", @Html.DisplayFor(modelItem => item.ProductPrice))</span>
+                    </td>
+
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Instock)
+                    </td>
+
+                    <td class="text-center">
+                        @Html.ActionLink(" Edit", "Edit", new { id = item.ProductID }, new { @class = "glyphicon glyphicon-th-list btn btn-primary" })
+                        @*@Html.ActionLink(" Details", "Details", new { ProductID = item.ProductID }, new { @class = "glyphicon glyphicon-edit btn btn-warning" })*@
+                        @Html.ActionLink(" Delete", "Delete", new { id = item.ProductID }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                    </td>
+
+                </tr>
+
+
+
+
+            }
+        </tbody>
+    </Table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

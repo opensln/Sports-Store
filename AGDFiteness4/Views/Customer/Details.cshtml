@@ -1,0 +1,179 @@
+﻿
+@model AGDFiteness4.Models.Product
+@*@using MandG.ViewModels;*@
+
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+
+
+    dd {
+        border: solid black 1px;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        word-wrap: break-word;
+        padding: 5px;
+        width: 20%
+    }
+
+
+
+    /*-----------------------------------------------------AlternativeCSS--------------------------------------------*/
+
+    body {
+        box-sizing: border-box;
+    }
+
+    #largePicture {
+        /*			width: 500px;*/
+        height: 300px;
+        border: 1px solid #ffffff;
+        background-color: #ffffff;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+    }
+
+    #productNameHeader {
+        margin: 0px 0px 10px 0px;
+    }
+
+    #smallImagesRow {
+        margin: 0px 0px 0px 0px;
+    }
+
+    .smallerImagesholder {
+        background-color: #ffffff;
+        height: 110px;
+        /*			min-width: 16%;*/
+        margin: 0px 0px 0px 0px;
+        padding: 10px;
+        background-position: center;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .smallerImagespacer {
+        height: 110px;
+    }
+
+    .smallerImages {
+        background-position: center;
+        background-size: contain;
+        height: 80px;
+        background-repeat: no-repeat;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+        /*----------------cartButton on details page*/
+
+</style>
+
+
+
+
+@*--------------------------------------------Alternative View----------------------------------------------------*@
+<hr />
+<div class="detailsHeaderDiv">
+    <h3 id="productNameHeader" style="text-align:center">@Model.ProductName  </h3>
+    <p class="text-center" style="font-size:30px;">@String.Format("{0:C}", Model.ProductPrice)</p>
+</div>
+
+<div class="row">
+    <div id="itemImage01holder" class="smallerImagespacer col-md-3">
+        <!--
+                    <p id="itemImage00" class="smallerImages ">
+                    </p>
+        -->
+    </div>
+    <div id="largePicture" class="col-md-6">
+    </div>
+</div>
+
+
+
+
+
+<div id="smallImagesRow" class="row">
+
+
+    <div id="itemImageSpacerL" class="smallerImagespacer col-md-3" style="background-color:#ffffff;position:relative;">
+        <span class="backButton" style="">
+            <button class="btn btn-primary" onclick="goBack()" style="width:150px">Go Back</button>
+        </span>
+    </div>
+
+    <div id="itemImage01holder" class="smallerImagesholder col-md-2">
+        <p id="itemImage01" class="smallerImages" onmouseover="showImage1()">
+        </p>
+    </div>
+
+
+
+    <div id="itemImage02holder" class="smallerImagesholder col-md-2">
+        <p id="itemImage02" class="smallerImages" onmouseover="showImage2()">
+        </p>
+    </div>
+
+    <div id="itemImage03holder" class="smallerImagesholder col-md-2">
+        <p id="itemImage03" class="smallerImages" onmouseover="showImage3()">
+        </p>
+    </div>
+
+    <div id="itemImage01SpacerR" class="smallerImagespacer col-md-3" style="background-color:#ffffff;">
+        <span class="cartButton" style="">
+
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+
+                @Html.HiddenFor(x => x.ProductID)
+                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                <input type="submit" class="btn btn-success" value="Add to cart" style="width:150px" />
+
+            }
+        </span>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    document.getElementById("largePicture").style ="background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+
+    document.getElementById("itemImage01").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+
+    document.getElementById("itemImage02").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_2" ,@Model.Image))";
+
+    document.getElementById("itemImage03").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_3" ,@Model.Image))";
+
+    function showImage1() {
+        //		alert("Hello There!");
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+    }
+
+    function showImage2() {
+        //			alert("Hello There2!");
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_2" ,@Model.Image))";
+    }
+
+    function showImage3() {
+        //		alert("Hello There3!");
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_3" ,@Model.Image))";
+    }
+
+
+
+</script>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

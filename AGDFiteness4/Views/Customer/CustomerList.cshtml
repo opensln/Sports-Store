@@ -1,0 +1,152 @@
+﻿
+@model AGDFiteness4.VewModels.CustomerListViewModel
+@using AGDFiteness4.HtmlHelpers;
+
+
+@{
+    ViewBag.Title = "CustomerView";
+}
+
+<style>
+    body {
+        font-family: sans-serif;
+    }
+
+    .container {
+        width:100%;
+    }
+  
+
+    .navbar-brand {
+        padding: 15px 44px;
+    }
+
+   
+
+    .categoryBtns {
+       /* margin-top:-12px;*/
+    }
+
+  
+
+    .body-content {
+        margin-top: -10px;
+    }
+
+    #productCard {
+        box-shadow: 0px 5px 5px lightgrey;
+    }
+
+    #ImageWindow {
+        border-radius: 5%;
+    }
+
+    .zoom {
+        transition: transform .2s; /* Animation */
+        /*width: 200px;
+        height: 200px;
+        margin: 0 auto;*/
+    }
+
+        .zoom:hover {
+            -webkit-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+
+    .mainBanner {
+        color: white;
+        height: 60px;
+        background-color: #000000;
+        margin-top: 0;
+    }
+
+    .btn-black {
+        background-color: black;
+        color: white;
+    }
+
+
+    .noticeBanner {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        text-align: center;
+        background-color: #ffed03;
+    }
+
+
+    .showProductCards {
+        width:80%;
+        margin: 0 auto;
+    }
+
+
+    /*-------------------------*/
+ 
+</style>
+
+@*<h2>CustomerView</h2>*@
+<header class="text-center mainBanner">
+    <h1 style="">AGD FITNESS SUPPLIES</h1>
+    @*<h4 style="margin-top:-20px;font-size:20px;">"All your essential fitness products at today's best prices"</h4>*@
+</header>
+
+<div class="menuDivLDN" style="">
+    <aside class="categoryBtns text-center">
+        @Html.Action("CatMenu", "Nav")
+
+    </aside>
+</div>
+
+<div class="noticeBanner">
+    <div class="notice"> <a class="ga-ip" id="usp-2" data-ip-name="delivery" href="/page/delivery-returns/" style="color: black;"><span class="boldText"> NEXT DAY DELIVERY AVAILABLE</span> IF YOU ORDER BEFORE 9PM </a></div>
+    <div class="notice"> <a class="ga-ip" id="usp-1" data-ip-name="latest" href="/campaign/new+in/?facet-new=latest&amp;sort=latest" style="color: black;"><span class="boldText"> GET CASH BACK WHEN YOU SPEND </span> ON YOUR WIREX CARD </a> </div>
+    <div class="notice"> <a class="ga-ip" id="usp-3" data-ip-name="delivery" href="/campaign/new+in/?facet-new=latest&amp;sort=latest" style="color: black;"> <span class="boldText"> GET ACCESS TO EXCLUSIVE ITEMS </span> FOR PREMIUM MEMBERS! </a></div>
+
+    <style>
+    </style>
+</div>
+
+<div class="row showProductCards">
+
+    <section class="col-md-12">
+
+        @foreach (var p in Model.Products.ToList())
+        {
+            <div class="col-sm-4" style="height:auto; padding:10px; background-color:#ffffff;">
+                <div id="productCard" class="text-center" style="height:auto; position:relative;background-color:white;padding:0px;">
+
+                    <div id="productCardTop" class="" style="height:200px;background-color:#f5f5f5;padding: 20px 0px 0px 0px; ">
+
+                        <span id="ImageWindow">
+                            <img id="ImageWindow" class="zoom" src="~/Content/Images/ProductImages/@p.Image" height="150" style=" display: block; margin-left: auto; margin-right: auto;" />
+                        </span>
+                    </div>
+                    <section style="background-color:white;margin: -10px 0px 0px 0px;">
+                        <P>@p.ProductName</P>
+                        <span style="margin-top:10px;">@p.ProductPrice.ToString("c")</span>
+
+                        <p class="" style="margin:0px 0px 0px 0px;">@p.CategoryTBL.CategoryName</p>
+                        @Html.Partial("_DetailsButton", p)
+                    </section>
+
+                    @*<div style="width:100%;height:auto;">
+
+                        </div>*@
+
+
+                </div>
+            </div>
+
+        }
+    </section>
+
+</div>
+
+<section class="text-center">
+    <div class="btn-group ">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("CustomerList",
+        new { page = x }))
+    </div>
+</section>
