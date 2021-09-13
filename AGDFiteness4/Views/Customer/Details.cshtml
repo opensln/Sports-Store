@@ -1,30 +1,11 @@
 ﻿
 @model AGDFiteness4.Models.Product
-@*@using MandG.ViewModels;*@
-
-
 
 @{
     ViewBag.Title = "Details";
 }
 
 <style>
-
-
-    dd {
-        border: solid black 1px;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        word-wrap: break-word;
-        padding: 5px;
-        width: 20%
-    }
-
-
-
-    /*-----------------------------------------------------AlternativeCSS--------------------------------------------*/
-
     body {
         box-sizing: border-box;
     }
@@ -33,10 +14,20 @@
         /*			width: 500px;*/
         height: 300px;
         border: 1px solid #ffffff;
+        border-radius:10px;
         background-color: #ffffff;
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
+        box-shadow: 5px 5px 10px #888;
+    }
+
+    #largePicture:hover {
+        background-size: 150%;
+    }
+
+    .hoverInfo {
+        text-align: center;
     }
 
     #productNameHeader {
@@ -44,7 +35,7 @@
     }
 
     #smallImagesRow {
-        margin: 0px 0px 0px 0px;
+        margin: 20px 0px 0px 0px;
     }
 
     .smallerImagesholder {
@@ -70,12 +61,8 @@
         border: 1px solid black;
         border-radius: 10px;
     }
-        /*----------------cartButton on details page*/
 
 </style>
-
-
-
 
 @*--------------------------------------------Alternative View----------------------------------------------------*@
 <hr />
@@ -85,22 +72,13 @@
 </div>
 
 <div class="row">
-    <div id="itemImage01holder" class="smallerImagespacer col-md-3">
-        <!--
-                    <p id="itemImage00" class="smallerImages ">
-                    </p>
-        -->
-    </div>
-    <div id="largePicture" class="col-md-6">
+    <div id="itemImage01holder" class="smallerImagespacer col-md-3"></div>
+    <div id="largePicture" class="col-md-6 imageDiv">
+        <p class="hoverInfo">hover over this image to zoom in.</p>
     </div>
 </div>
 
-
-
-
-
 <div id="smallImagesRow" class="row">
-
 
     <div id="itemImageSpacerL" class="smallerImagespacer col-md-3" style="background-color:#ffffff;position:relative;">
         <span class="backButton" style="">
@@ -108,22 +86,24 @@
         </span>
     </div>
 
-    <div id="itemImage01holder" class="smallerImagesholder col-md-2">
-        <p id="itemImage01" class="smallerImages" onmouseover="showImage1()">
-        </p>
-    </div>
+    <!--spacerEnd-->
 
+            <div id="itemImage01holder" class="smallerImagesholder col-md-2">
+                <p id="itemImage01" class="smallerImages" onmouseover="showImage1()">
+                </p>
+            </div>
 
+            <div id="itemImage02holder" class="smallerImagesholder col-md-2">
+                <p id="itemImage02" class="smallerImages" onmouseover="showImage2()">
+                </p>
+            </div>
 
-    <div id="itemImage02holder" class="smallerImagesholder col-md-2">
-        <p id="itemImage02" class="smallerImages" onmouseover="showImage2()">
-        </p>
-    </div>
+            <div id="itemImage03holder" class="smallerImagesholder col-md-2">
+                <p id="itemImage03" class="smallerImages" onmouseover="showImage3()">
+                </p>
+            </div>
 
-    <div id="itemImage03holder" class="smallerImagesholder col-md-2">
-        <p id="itemImage03" class="smallerImages" onmouseover="showImage3()">
-        </p>
-    </div>
+    <!--spacerStart-->
 
     <div id="itemImage01SpacerR" class="smallerImagespacer col-md-3" style="background-color:#ffffff;">
         <span class="cartButton" style="">
@@ -145,29 +125,48 @@
 
 
 <script>
-    document.getElementById("largePicture").style ="background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+    document.getElementById("largePicture").style ="background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "" ,@Model.Image))";
 
-    document.getElementById("itemImage01").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+    document.getElementById("itemImage01").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "" ,@Model.Image))";
 
-    document.getElementById("itemImage02").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_2" ,@Model.Image))";
+    document.getElementById("itemImage02").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "2_" ,@Model.Image))";
 
-    document.getElementById("itemImage03").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_3" ,@Model.Image))";
+    document.getElementById("itemImage03").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "3_" ,@Model.Image))";
 
     function showImage1() {
-        //		alert("Hello There!");
-        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_1" ,@Model.Image))";
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "" ,@Model.Image))";
     }
 
     function showImage2() {
-        //			alert("Hello There2!");
-        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_2" ,@Model.Image))";
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "2_" ,@Model.Image))";
     }
 
     function showImage3() {
-        //		alert("Hello There3!");
-        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "_3" ,@Model.Image))";
+        document.getElementById("largePicture").style = "background-Image:url(/Content/Images/ProductImages/@(String.Format("{0}{1}", "3_" ,@Model.Image))";
     }
 
+    let image = document.querySelector(".imageDiv");
+
+    image.addEventListener("mousemove", function (e) {
+
+        document.querySelector(".hoverInfo").style.display = "none";
+
+        let imageWidth = image.offsetWidth;
+        let imageHeight = image.offsetHeight;
+
+        let mouseX = e.offsetX;
+        let mouseY = e.offsetY;
+
+        let bgPosX = (mouseX / imageWidth * 100);
+        let bgPosY = (mouseY / imageHeight * 100);
+
+        image.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`;
+    });
+
+    image.addEventListener("mouseleave", function (e) {
+        image.style.backgroundPosition = "center";
+        document.querySelector(".hoverInfo").style.display = "block";
+    });
 
 
 </script>

@@ -4,15 +4,15 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Add a product</h2>
 
-@using(Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Product</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -37,7 +37,7 @@
 
                 @*@Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                <input type="file" name="ImageFile" />
+                <input type="file" name="ImageFile" /><span style="color:red">*Make sure that there are no spaces in the image filename.</span>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
+<p>Note: Only the primary image for each product can be added by this form. Extra product images must be added behind the scenes.</p>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

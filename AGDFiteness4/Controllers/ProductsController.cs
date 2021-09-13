@@ -64,7 +64,7 @@ namespace AGDFiteness4.Controllers
                 product.Image = imagename;
 
 
-                imagename = Path.Combine(Server.MapPath("~/Content/Images/"), imagename);
+                imagename = Path.Combine(Server.MapPath("~/Content/Images/ProductImages"), imagename);
                 product.ImageFile.SaveAs(imagename);
                                                                                                     
                 db.Products.Add(product);

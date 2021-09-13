@@ -4,10 +4,6 @@
     ViewBag.Title = "Admin View";
 }
 
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>*@
-
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
@@ -39,7 +35,7 @@
 
 <div id="AdminHeader" style="   ">
     <p style="margin-top:0px;position:absolute;top:9px;left:5px;color:black;" class="btn btn-default">@Html.ActionLink("Add a Product", "Create", "Products")</p>
-    <h2 class="text-center" style="margin-top:0px;padding-top:8px;">Manage Prodcuts </h2>
+    <h2 class="text-center" style="margin-top:0px;padding-top:8px;">Manage Products </h2>
 </div>
 
 <div>
@@ -72,8 +68,6 @@
                     <td class="text-center">
                         <img src="~/Content/Images/ProductImages/@Html.DisplayFor(modelItem => item.Image)" width="100" style=" display: block; margin-left: auto; margin-right: auto;" />
                     </td>
-
-
 
                     <td class="text-center">
                         <span>@String.Format("{0:C}", @Html.DisplayFor(modelItem => item.ProductPrice))</span>
