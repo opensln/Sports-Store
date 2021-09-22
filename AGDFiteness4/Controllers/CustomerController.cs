@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using AGDFiteness4.VewModels;
+using System.Net;
 
 namespace AGDFiteness4.Controllers
 {
@@ -17,7 +18,7 @@ namespace AGDFiteness4.Controllers
 
         //-----------------------------db context------------------------
 
-        private Entities db = new Entities();
+        //private Entities db = new Entities();
 
         //-----------------------------End db context--------------------
 
@@ -34,10 +35,6 @@ namespace AGDFiteness4.Controllers
 
 
 
-
-
-
-
         //------------------------Straight From ADO-Entity------------------Working
         
         //GET: Customer
@@ -46,7 +43,7 @@ namespace AGDFiteness4.Controllers
             //var products = db.Products.Include(p => p.CategoryTBL);
             CustomerListViewModel model = new CustomerListViewModel
             {
-                Products = db.Products
+                Products = repository.Products
                 .Where(p => category == null || p.CategoryTBL.CategoryName == category)
                 .OrderBy(p => p.ProductID)
                 .Skip((page - 1) * PageSize)
@@ -56,7 +53,7 @@ namespace AGDFiteness4.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = category == null ? db.Products.Count() : db.Products.
+                    TotalItems = category == null ? repository.Products.Count() : repository.Products.
                     Where(e => e.CategoryTBL.CategoryName == category).Count()
                 },
                 CurrentCategory = category
@@ -70,17 +67,16 @@ namespace AGDFiteness4.Controllers
         // GET: Mobiles/Details/5
         public ActionResult Details(int? ProductID)
         {
-            //    if (ProductID == null)
-            //    {
-            //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //    }
-            Product SingleProduct = db.Products.Find(ProductID);
-            //    if (SingleProduct == null)
-            //    {
-            //        return HttpNotFound();
-            //    }
+            if (ProductID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product SingleProduct = repository.Find(ProductID);
+            if (SingleProduct == null)
+            {
+                return HttpNotFound();
+            }
             return View(SingleProduct);
-            //  return View();
         }
     }
 }

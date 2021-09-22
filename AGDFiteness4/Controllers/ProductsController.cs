@@ -1,29 +1,35 @@
 ﻿using System;
+using AGDFiteness4.Abstract;
+using AGDFiteness4.Models;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AGDFiteness4.Models;
+using System.Data.Entity;
+using AGDFiteness4.VewModels;
+using System.Net;
+using System.IO;
+using System.Data;
 
 namespace AGDFiteness4.Controllers
 {
     public class ProductsController : Controller
     {
-        private Entities db;
+        //private Entities db;
+        private IProductRepository repository;
 
-        public ProductsController()
+        public ProductsController(IProductRepository productRepository)
         {
-            db = new Entities();
+            this.repository = productRepository;
         }
 
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.CategoryTBL);
+            //var products = repository.Products.Include(p => p.CategoryTBL);
+
+            var products = repository.Products;
+
             return View(products.ToList());
         }
 
@@ -34,7 +40,7 @@ namespace AGDFiteness4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = repository.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -45,7 +51,7 @@ namespace AGDFiteness4.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.CategoryTBLs, "CatID", "CategoryName");
+            ViewBag.CategoryID = new SelectList(repository.CategoryTBLs, "CatID", "CategoryName");
             return View();
         }
 
@@ -67,12 +73,12 @@ namespace AGDFiteness4.Controllers
                 imagename = Path.Combine(Server.MapPath("~/Content/Images/ProductImages"), imagename);
                 product.ImageFile.SaveAs(imagename);
                                                                                                     
-                db.Products.Add(product);
-                db.SaveChanges();
+                repository.Add(product);
+                repository.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryID = new SelectList(db.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
+            ViewBag.CategoryID = new SelectList(repository.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
             return View(product);
         }
 
@@ -83,12 +89,12 @@ namespace AGDFiteness4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = repository.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryID = new SelectList(db.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
+            ViewBag.CategoryID = new SelectList(repository.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
             return View(product);
         }
 
@@ -102,11 +108,11 @@ namespace AGDFiteness4.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.Entry(product); 
+                repository.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryID = new SelectList(db.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
+            ViewBag.CategoryID = new SelectList(repository.CategoryTBLs, "CatID", "CategoryName", product.CategoryID);
             return View(product);
         }
 
@@ -117,7 +123,7 @@ namespace AGDFiteness4.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = repository.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -131,9 +137,9 @@ namespace AGDFiteness4.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
+            Product product = repository.Find(id);
+            repository.Remove(product);
+            repository.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -141,34 +147,9 @@ namespace AGDFiteness4.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                repository.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        //--------------------------------With View Model---------------------------
-
-        //public ActionResult CustomerPages()
-        //{
-        //    CustomerPageViewModel model = new CustomerPageViewModel()
-        //    {
-        //        Products = _context.Products.ToList(),
-
-        //        CategoryTBL1 = _context.CategoryTBL.ToList()
-
-        //    };
-
-        //    return View(model);
-        //}
-
-        //--------------------------------Without View Model---------------------------
-
-        public ActionResult CustomerPages()
-        {
-            var products = db.Products.Include(p => p.CategoryTBL);
-
-            return View(products.ToList());
-            
-        }
+        }   
     }
 }
